@@ -1,0 +1,14 @@
+{
+  "name": "nikoginwp/framework",
+  "description": "Nikogin WordPress plugin framework",
+  "type": "library",
+  "require": {
+    "php": "^8.3"
+  },
+  "autoload": {
+    "psr-4": {
+      "Nikogin\\Framework\\": "src/"
+    }
+  },
+  "minimum-stability": "stable"
+}
