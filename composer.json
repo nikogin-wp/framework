@@ -2,6 +2,7 @@
   "name": "nikoginwp/framework",
   "description": "Nikogin WordPress plugin framework",
   "type": "library",
+  "license": "MIT",
   "require": {
     "php": "^8.3"
   },
