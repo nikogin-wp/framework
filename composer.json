@@ -3,6 +3,12 @@
   "description": "Nikogin WordPress plugin framework",
   "type": "library",
   "license": "MIT",
+  "authors": [
+    {
+      "name": "Nikola Devic",
+      "email": "devicnikola01@gmail.com"
+    }
+  ],
   "require": {
     "php": "^8.3"
   },
