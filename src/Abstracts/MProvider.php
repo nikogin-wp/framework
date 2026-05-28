@@ -4,15 +4,7 @@ namespace Nikogin\Framework\Abstracts;
 
 use Nikogin\Framework\Support\Updater;
 
-/**
- * Migration Provider class abstract
- *
- * Handles migration classes registration
- *
- *
- *
- */
-abstract class MProvider
+abstract class MProvider extends Provider
 {
     protected array $migrations = [];
 

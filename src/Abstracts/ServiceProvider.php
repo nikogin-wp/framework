@@ -4,7 +4,7 @@ namespace Nikogin\Framework\Abstracts;
 
 use Nikogin\Framework\Support\Container;
 
-abstract class ServiceProvider
+abstract class ServiceProvider extends Provider
 {
     protected array $services = [];
 
