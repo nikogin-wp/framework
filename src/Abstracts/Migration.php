@@ -2,16 +2,18 @@
 
 namespace Nikogin\Framework\Abstracts;
 
+use Nikogin\Framework\Support\Config;
 use Nikogin\Framework\Traits\DB;
 
 abstract class Migration
 {
     use DB;
     protected string $charsetCollate;
-    protected string $prefix = 'tc_';
+    protected string $prefix;
 
     public function __construct()
     {
+        $this->prefix = Config::get('prefix');
         $this->charsetCollate = $this->db()->get_charset_collate();
     }
 
