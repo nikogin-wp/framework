@@ -26,11 +26,13 @@ abstract class ServiceProvider extends Provider
                 {
                     return new $service(Container::get($dependencies));
                 });
+                Container::get($service);
             } else {
                 Container::bind($dependencies, function () use ($dependencies)
                 {
                     return new $dependencies();
                 });
+                Container::get($dependencies);
             }
         }
     }

@@ -1,0 +1,15 @@
+<?php
+
+namespace {{ namespace }};
+
+use Nikogin\Framework\Abstracts\ServiceProvider;
+
+class {{ class }} extends ServiceProvider
+{
+    public function priority(): int
+    {
+        return 10;
+    }
+
+    protected array $services = [];
+}
