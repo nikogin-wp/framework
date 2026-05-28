@@ -1,0 +1,23 @@
+<?php
+
+namespace {{ namespace }};
+
+use Nikogin\Framework\Abstracts\Job;
+
+class {{ class }} extends Job
+{
+    protected function getActionHook(): string
+    {
+        return '{{ hook }}';
+    }
+
+    protected function getNumOfArgs(): int
+    {
+        return 1;
+    }
+
+    public function handle(...$args): mixed
+    {
+        //
+    }
+}
