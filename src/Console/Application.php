@@ -2,20 +2,28 @@
 
 namespace Nikogin\Framework\Console;
 
+use Nikogin\Framework\Console\Commands\MakeController;
+use Nikogin\Framework\Console\Commands\MakeJob;
+use Nikogin\Framework\Console\Commands\MakeListener;
+use Nikogin\Framework\Console\Commands\MakeMigration;
+use Nikogin\Framework\Console\Commands\MakeProvider;
+use Nikogin\Framework\Console\Commands\MakeRepository;
+use Nikogin\Framework\Console\Commands\MakeShortcode;
+
 class Application
 {
     /** @var array<string, class-string<Command>> */
-    private array $commands = [];
+    private array $commands = [
+        'make:repository' => MakeRepository::class,
+        'make:listener'   => MakeListener::class,
+        'make:controller' => MakeController::class,
+        'make:migration'  => MakeMigration::class,
+        'make:job'        => MakeJob::class,
+        'make:shortcode'  => MakeShortcode::class,
+        'make:provider'   => MakeProvider::class,
+    ];
 
-    /**
-     * @param array<string, class-string<Command>> $commands Keyed by command name.
-     */
-    public function __construct(private string $basePath, array $commands = [])
-    {
-        foreach ($commands as $name => $class) {
-            $this->add($name, $class);
-        }
-    }
+    public function __construct(private string $basePath) {}
 
     /** @param class-string<Command> $class */
     public function add(string $name, string $class): void
