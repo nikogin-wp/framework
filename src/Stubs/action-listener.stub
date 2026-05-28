@@ -1,0 +1,15 @@
+<?php
+
+namespace {{ namespace }};
+
+use Nikogin\Framework\Abstracts\Listener;
+use Nikogin\Framework\Attributes\AsListener;
+
+#[AsListener(name: '{{ hook }}', type: 'action')]
+class {{ class }} extends Listener
+{
+    public function handle(mixed ...$args): mixed
+    {
+        //
+    }
+}

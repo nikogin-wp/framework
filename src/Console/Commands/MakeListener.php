@@ -4,29 +4,22 @@ namespace Nikogin\Framework\Console\Commands;
 
 use Nikogin\Framework\Console\Command;
 
-class MakeRepository extends Command
+class MakeListener extends Command
 {
     private const TYPES = [
-        'db'       => [
-            'stub'      => 'repository.stub',
-            'dir'       => 'Db',
-            'namespace' => 'Repository\Db',
+        'action' => [
+            'stub' => 'action-listener.stub',
+            'dir'  => 'Action',
         ],
-        'wp'       => [
-            'stub'      => 'wp-repository.stub',
-            'dir'       => 'Wp',
-            'namespace' => 'Repository\Wp',
-        ],
-        'taxonomy' => [
-            'stub'      => 'taxonomy-repository.stub',
-            'dir'       => 'Taxonomy',
-            'namespace' => 'Repository\Taxonomy',
+        'filter' => [
+            'stub' => 'filter-listener.stub',
+            'dir'  => 'Filter',
         ],
     ];
 
     public function name(): string
     {
-        return 'make:repository';
+        return 'make:listener';
     }
 
     public function handle(array $args, array $options, string $basePath): void
@@ -35,7 +28,7 @@ class MakeRepository extends Command
         $type      = $options['type'] ?? null;
 
         if (!$className) {
-            $this->error('Class name is required. Usage: make:repository {ClassName} --type={db|wp|taxonomy}');
+            $this->error('Class name is required. Usage: make:listener {ClassName} --type={action|filter}');
             exit(1);
         }
 
@@ -51,22 +44,20 @@ class MakeRepository extends Command
 
         $config    = self::TYPES[$type];
         $stub      = $this->loadStub($config['stub']);
-        $slug      = $this->toSnakeCase($className, 'Repository');
-        $namespace = $this->resolvePluginNamespace($basePath) . '\\' . $config['namespace'];
+        $namespace = $this->resolvePluginNamespace($basePath) . '\\Listeners\\' . $config['dir'];
+        $hook      = $options['name'] ?? $this->toSnakeCase($className, 'Listener');
 
         $stub = $this->replace($stub, [
             '{{ namespace }}' => $namespace,
             '{{ class }}'     => $className,
-            '{{ table }}'     => $slug,
-            '{{ post_type }}' => $slug,
-            '{{ taxonomy }}'  => $slug,
+            '{{ hook }}'      => $hook,
         ]);
 
-        $outputDir  = $basePath . '/app/Repository/' . $config['dir'];
+        $outputDir  = $basePath . '/app/Listeners/' . $config['dir'];
         $outputFile = $outputDir . '/' . $className . '.php';
 
         if (file_exists($outputFile)) {
-            $this->error("File already exists: app/Repository/{$config['dir']}/{$className}.php");
+            $this->error("File already exists: app/Listeners/{$config['dir']}/{$className}.php");
             exit(1);
         }
 
@@ -76,6 +67,6 @@ class MakeRepository extends Command
 
         file_put_contents($outputFile, $stub);
 
-        $this->success("Created app/Repository/{$config['dir']}/{$className}.php");
+        $this->success("Created app/Listeners/{$config['dir']}/{$className}.php");
     }
 }
