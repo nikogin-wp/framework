@@ -4,14 +4,23 @@ namespace Nikogin\Framework\Console;
 
 class Application
 {
-    /** @var Command[] */
+    /** @var array<string, class-string<Command>> */
     private array $commands = [];
 
-    public function __construct(private string $basePath) {}
-
-    public function add(Command $command): void
+    /**
+     * @param array<string, class-string<Command>> $commands Keyed by command name.
+     */
+    public function __construct(private string $basePath, array $commands = [])
     {
-        $this->commands[$command->name()] = $command;
+        foreach ($commands as $name => $class) {
+            $this->add($name, $class);
+        }
+    }
+
+    /** @param class-string<Command> $class */
+    public function add(string $name, string $class): void
+    {
+        $this->commands[$name] = $class;
     }
 
     public function run(array $argv): void
@@ -30,7 +39,7 @@ class Application
 
         [$args, $options] = $this->parseArgv(array_slice($argv, 2));
 
-        $this->commands[$commandName]->handle($args, $options, $this->basePath);
+        (new $this->commands[$commandName]())->handle($args, $options, $this->basePath);
     }
 
     private function parseArgv(array $argv): array
