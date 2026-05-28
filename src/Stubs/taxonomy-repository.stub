@@ -1,0 +1,13 @@
+<?php
+
+namespace {{ namespace }};
+
+use Nikogin\Framework\Abstracts\TaxonomyRepository;
+
+class {{ class }} extends TaxonomyRepository
+{
+    public function __construct()
+    {
+        parent::__construct('{{ taxonomy }}');
+    }
+}

@@ -1,0 +1,13 @@
+<?php
+
+namespace {{ namespace }};
+
+use Nikogin\Framework\Abstracts\WpRepository;
+
+class {{ class }} extends WpRepository
+{
+    public function __construct()
+    {
+        parent::__construct('{{ post_type }}');
+    }
+}

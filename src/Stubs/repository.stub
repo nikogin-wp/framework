@@ -1,0 +1,13 @@
+<?php
+
+namespace {{ namespace }};
+
+use Nikogin\Framework\Abstracts\Repository;
+
+class {{ class }} extends Repository
+{
+    public function __construct()
+    {
+        parent::__construct('{{ table }}');
+    }
+}
