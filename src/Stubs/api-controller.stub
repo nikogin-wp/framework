@@ -1,0 +1,14 @@
+<?php
+
+namespace {{ namespace }};
+
+use Nikogin\Framework\Abstracts\ApiController;
+use WP_REST_Response;
+
+class {{ class }} extends ApiController
+{
+    public function index(): WP_REST_Response
+    {
+        return $this->success();
+    }
+}

@@ -1,0 +1,25 @@
+<?php
+
+namespace {{ namespace }};
+
+use Nikogin\Framework\Abstracts\SubmenuController;
+
+class {{ class }} extends SubmenuController
+{
+    protected string $parentSlug = '{{ parent_slug }}';
+    protected string $menuSlug   = '{{ slug }}';
+    protected string $pageTitle  = '{{ title }}';
+    protected string $menuTitle  = '{{ title }}';
+    protected string $capability = 'manage_options';
+    protected string $view       = '{{ slug }}';
+
+    public function processForm(): void
+    {
+        //
+    }
+
+    public function view(): void
+    {
+        echo '<div class="wrap"><h1>' . esc_html($this->pageTitle) . '</h1></div>';
+    }
+}
