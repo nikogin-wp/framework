@@ -1,0 +1,24 @@
+<?php
+
+namespace {{ namespace }};
+
+use Nikogin\Framework\Abstracts\Migration;
+
+class {{ class }} extends Migration
+{
+    public function getTableName(): string
+    {
+        return '{{ table }}';
+    }
+
+    public function getSchema(): string
+    {
+        $table = $this->getFullTableName();
+
+        return "CREATE TABLE {$table} (
+            id BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+            created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+            PRIMARY KEY (id)
+        ) {$this->charsetCollate};";
+    }
+}
