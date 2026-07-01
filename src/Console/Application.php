@@ -6,6 +6,7 @@ use Nikogin\Framework\Console\Commands\MakeController;
 use Nikogin\Framework\Console\Commands\MakeJob;
 use Nikogin\Framework\Console\Commands\MakeListener;
 use Nikogin\Framework\Console\Commands\MakeMigration;
+use Nikogin\Framework\Console\Commands\MakeModule;
 use Nikogin\Framework\Console\Commands\MakeProvider;
 use Nikogin\Framework\Console\Commands\MakeRepository;
 use Nikogin\Framework\Console\Commands\MakeShortcode;
@@ -21,6 +22,7 @@ class Application
         'make:job'        => MakeJob::class,
         'make:shortcode'  => MakeShortcode::class,
         'make:provider'   => MakeProvider::class,
+        'make:module'     => MakeModule::class,
     ];
 
     public function __construct(private string $basePath) {}

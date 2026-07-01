@@ -8,6 +8,13 @@ abstract class ServiceProvider extends Provider
 {
     protected array $services = [];
 
+    /**
+     * Optional lifecycle hook run after register(). No-op by default —
+     * override it for setup that must happen once services are bound,
+     * e.g. registering routes via Router::group().
+     */
+    public function boot(): void {}
+
     public function register(): void
     {
         foreach ($this->services as $service => $dependencies)

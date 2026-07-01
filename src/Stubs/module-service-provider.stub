@@ -1,0 +1,21 @@
+<?php
+
+namespace {{ namespace }};
+
+use Nikogin\Framework\Abstracts\ServiceProvider;
+use Nikogin\Framework\Attributes\AsModule;
+
+#[AsModule(name: '{{ module_name }}')]
+class {{ class }} extends ServiceProvider
+{
+    public function priority(): int
+    {
+        return 10;
+    }
+
+    protected array $services = [];
+
+    public function boot(): void
+    {
+    }
+}
