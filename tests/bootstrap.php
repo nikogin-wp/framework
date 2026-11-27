@@ -21,9 +21,19 @@ final class WpSpy
     /** @var list<string> */
     public static array $caps = [];
 
+    /** @var array<string, mixed> */
+    public static array $options = [];
+
+    public static int $optionWrites = 0;
+
+    /** @var array<string, array{timestamp: int, recurrence: string|false}> */
+    public static array $cron = [];
+
     public static function reset(): void
     {
         self::$routes = self::$actions = self::$filters = self::$caps = [];
+        self::$options = self::$cron = [];
+        self::$optionWrites = 0;
     }
 
     public static function has(array $hooks, string $name, callable $callback): bool
@@ -90,6 +100,58 @@ function has_filter(string $name, mixed $callback = false): bool
 function current_user_can(string $capability): bool
 {
     return in_array($capability, WpSpy::$caps, true);
+}
+
+function get_option(string $name, mixed $default = false): mixed
+{
+    return array_key_exists($name, WpSpy::$options) ? WpSpy::$options[$name] : $default;
+}
+
+function update_option(string $name, mixed $value, mixed $autoload = null): bool
+{
+    WpSpy::$options[$name] = $value;
+    WpSpy::$optionWrites++;
+    return true;
+}
+
+function delete_option(string $name): bool
+{
+    unset(WpSpy::$options[$name]);
+    return true;
+}
+
+function wp_get_schedules(): array
+{
+    return ['hourly' => [], 'twicedaily' => [], 'daily' => [], 'weekly' => []];
+}
+
+function wp_get_schedule(string $hook): string|false
+{
+    return WpSpy::$cron[$hook]['recurrence'] ?? false;
+}
+
+function wp_next_scheduled(string $hook): int|false
+{
+    return WpSpy::$cron[$hook]['timestamp'] ?? false;
+}
+
+function wp_schedule_event(int $timestamp, string $recurrence, string $hook): bool
+{
+    WpSpy::$cron[$hook] = compact('timestamp', 'recurrence');
+    return true;
+}
+
+function wp_schedule_single_event(int $timestamp, string $hook): bool
+{
+    WpSpy::$cron[$hook] = ['timestamp' => $timestamp, 'recurrence' => false];
+    return true;
+}
+
+function wp_clear_scheduled_hook(string $hook): int
+{
+    $had = isset(WpSpy::$cron[$hook]);
+    unset(WpSpy::$cron[$hook]);
+    return (int) $had;
 }
 
 function __return_true(): bool
