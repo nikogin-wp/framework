@@ -17,5 +17,16 @@
       "Nikogin\\Framework\\": "src/"
     }
   },
-  "minimum-stability": "stable"
+  "minimum-stability": "stable",
+  "require-dev": {
+    "phpunit/phpunit": "^11.5"
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Nikogin\\Framework\\Tests\\": "tests/"
+    }
+  },
+  "scripts": {
+    "test": "phpunit"
+  }
 }

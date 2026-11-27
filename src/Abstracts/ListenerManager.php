@@ -4,6 +4,7 @@ namespace Nikogin\Framework\Abstracts;
 
 use ReflectionClass;
 use Nikogin\Framework\Attributes\AsListener;
+use Nikogin\Framework\Support\Discovery;
 
 /**
  * Base class for listener managers.
@@ -26,11 +27,34 @@ abstract class ListenerManager
 
     public function registerListener(string $listenerClass): void
     {
-        if (!is_subclass_of($listenerClass, Listener::class)) {
+        if (!is_subclass_of($listenerClass, Listener::class) || in_array($listenerClass, $this->listeners, true)) {
             return;
         }
 
         $this->listeners[] = $listenerClass;
+    }
+
+    /**
+     * Recursively discover every Listener with #[AsListener] under $directory
+     * (any depth, e.g. app/Listeners/Action, app/Services/Foo/Listeners, ...).
+     *
+     * @param string   $directory   PSR-4 directory to scan
+     * @param string   $namespace   Namespace mapped to $directory
+     * @param string[] $excludeDirs Directories to skip, e.g. disabled modules
+     */
+    public function discover(string $directory, string $namespace, array $excludeDirs = []): void
+    {
+        $classes = Discovery::classesWithAttribute(
+            $directory,
+            $namespace,
+            AsListener::class,
+            $excludeDirs,
+            Listener::class
+        );
+
+        foreach ($classes as $class) {
+            $this->registerListener($class);
+        }
     }
 
     public function register(): void
